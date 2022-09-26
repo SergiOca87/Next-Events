@@ -3,6 +3,7 @@ import Image from 'next/image';
 import styles from '../styles/Home.module.css';
 import { getFeaturedEvents } from '../dummy-data';
 import EventList from '../components/events/EventList';
+import { useState } from 'react';
 
 export default function Home() {
 	const featuredEvents = getFeaturedEvents();
@@ -20,7 +21,6 @@ export default function Home() {
 
 			<main>
 				<h1>Homepage</h1>
-
 				<EventList items={featuredEvents} />
 			</main>
 		</div>

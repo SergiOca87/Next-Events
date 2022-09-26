@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import Button from '../ui/Button';
 
 export default function EventItem({ item }) {
 	const { id, title, date, image, location, slug } = item;
@@ -31,7 +32,7 @@ export default function EventItem({ item }) {
 				<address>{formattedAddress}</address>
 			</div>
 			<div>
-				<Link href={`/events/${id}`}>Event Details</Link>
+				<Button link={`/events/${id}`}>Event Details</Button>
 			</div>
 		</li>
 	);

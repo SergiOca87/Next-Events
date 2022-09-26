@@ -1,7 +1,21 @@
 import Head from 'next/head';
-import Image from 'next/image';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+import EventFilter from '../../components/events/EventFilter';
+import EventList from '../../components/events/EventList';
+import { getAllEvents } from '../../dummy-data';
 
 export default function Events() {
+	const [filteredEvents, setFilteredEvents] = useState('');
+	const events = getAllEvents();
+	const router = useRouter();
+
+	// If month or year form is submitted, navigate programmatically
+	function onFormSubmit(month, year) {
+		const searchPath = `/events/${year}/${month}`;
+		router.push(searchPath);
+	}
+
 	return (
 		<div>
 			<Head>
@@ -15,6 +29,18 @@ export default function Events() {
 
 			<main>
 				<h1>All events</h1>
+
+				<EventFilter
+					filteredEvents={filteredEvents}
+					setFilteredEvents={setFilteredEvents}
+					onFormSubmit={onFormSubmit}
+				/>
+				<p>{filteredEvents}</p>
+
+				<EventList
+					items={events}
+					filteredEvents={filteredEvents.toLowerCase()}
+				/>
 			</main>
 		</div>
 	);

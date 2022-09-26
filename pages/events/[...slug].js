@@ -1,7 +1,28 @@
 import Head from 'next/head';
-import Image from 'next/image';
+import { useRouter } from 'next/router';
+import EventItem from '../../components/events/EventItem';
+import EventList from '../../components/events/EventList';
+import { getFilteredEvents } from '../../dummy-data';
 
 export default function FilteredEventsPage() {
+	const router = useRouter();
+	const filteredData = router.query.slug;
+
+	if (!filteredData) {
+		return <p>...Loading</p>;
+	}
+
+	// Make sure URL params are numbers
+	const numYear = Number(filteredData[0]);
+	const numMonth = Number(filteredData[1]);
+
+	if (isNaN(numYear) || isNaN(numMonth)) {
+		return <p>Invalid filter search</p>;
+	}
+
+	// Year and Month
+	const filteredEvents = getFilteredEvents(numYear, numMonth);
+
 	return (
 		<div>
 			<Head>
@@ -15,6 +36,12 @@ export default function FilteredEventsPage() {
 
 			<main>
 				<h1>Filtered Events</h1>
+
+				{!filteredEvents || filteredEvents.length <= 0 ? (
+					<p>Your search has no results</p>
+				) : (
+					<EventList items={filteredEvents} />
+				)}
 			</main>
 		</div>
 	);
