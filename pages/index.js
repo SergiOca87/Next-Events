@@ -5,9 +5,7 @@ import { getFeaturedEvents } from '../dummy-data';
 import EventList from '../components/events/EventList';
 import { useState } from 'react';
 
-export default function Home() {
-	const featuredEvents = getFeaturedEvents();
-
+export default function Home({ featuredEvents }) {
 	return (
 		<div className={styles.container}>
 			<Head>
@@ -25,4 +23,30 @@ export default function Home() {
 			</main>
 		</div>
 	);
+}
+
+export async function getStaticProps() {
+	// The filtering for featuredEvents is done in the query directly
+	const featuredEventsQuery =
+		'https://next-events-62c2a-default-rtdb.europe-west1.firebasedatabase.app/Events.json?orderBy="isFeatured"&equalTo=true';
+
+	const response = await fetch(featuredEventsQuery);
+	const data = await response.json();
+
+	const events = [];
+
+	// Firebase returns data as an Object, spread into an Array
+	//TODO: This is repeated, extract to a utils file?
+	for (const key in data) {
+		events.push({
+			id: key,
+			...data[key],
+		});
+	}
+
+	return {
+		props: {
+			featuredEvents: events,
+		},
+	};
 }
