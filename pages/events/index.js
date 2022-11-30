@@ -5,9 +5,8 @@ import EventFilter from '../../components/events/EventFilter';
 import EventList from '../../components/events/EventList';
 import { getAllEvents } from '../../dummy-data';
 
-export default function Events() {
+export default function Events({ events }) {
 	const [filteredEvents, setFilteredEvents] = useState('');
-	const events = getAllEvents();
 	const router = useRouter();
 
 	// If month or year form is submitted, navigate programmatically
@@ -44,4 +43,18 @@ export default function Events() {
 			</main>
 		</div>
 	);
+}
+
+export async function getStaticProps() {
+	const allEventsQuery = `https://next-events-62c2a-default-rtdb.europe-west1.firebasedatabase.app/Events.json`;
+
+	const response = await fetch(allEventsQuery);
+	const data = await response.json();
+
+	return {
+		props: {
+			events: data,
+		},
+		revalidate: 300,
+	};
 }

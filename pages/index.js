@@ -4,6 +4,7 @@ import styles from '../styles/Home.module.css';
 import { getFeaturedEvents } from '../dummy-data';
 import EventList from '../components/events/EventList';
 import { useState } from 'react';
+import NewsletterSignUp from '../components/NewsletterSignUp';
 
 export default function Home({ featuredEvents }) {
 	return (
@@ -18,6 +19,7 @@ export default function Home({ featuredEvents }) {
 			</Head>
 
 			<main>
+				<NewsletterSignUp />
 				<h1>Homepage</h1>
 				<EventList items={featuredEvents} />
 			</main>
@@ -48,5 +50,6 @@ export async function getStaticProps() {
 		props: {
 			featuredEvents: events,
 		},
+		revalidate: 1800,
 	};
 }

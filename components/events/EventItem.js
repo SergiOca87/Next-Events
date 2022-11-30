@@ -11,7 +11,7 @@ export default function EventItem({ item }) {
 		year: 'numeric',
 	});
 
-	const formattedAddress = location.replace(', ', '\n');
+	const formattedAddress = location?.replace(', ', '\n');
 
 	return (
 		<li key={id} id={id}>

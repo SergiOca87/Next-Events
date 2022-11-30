@@ -16,20 +16,11 @@ export async function getStaticProps(context) {
 	const response = await fetch(singleEventQuery);
 	const data = await response.json();
 
-	// const events = [];
-
-	// // Firebase returns data as an Object, spread into an Array
-	// for (const key in data) {
-	// 	events.push({
-	// 		id: key,
-	// 		...data[key],
-	// 	});
-	// }
-
 	return {
 		props: {
 			event: data,
 		},
+		revalidate: 300,
 	};
 }
 
